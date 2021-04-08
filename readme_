@@ -47,6 +47,5 @@ Cómo cambiar el nombre de varios archivos con el Explorador de Windows
 git init
 git add README.md
 git commit -m "first commit"
-git branch -M main
 git remote add origin https://github.com/jav2074/angularjs-node-table-covid.git
 git push -u origin main
