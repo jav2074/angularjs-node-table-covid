@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+        <!-- Icon -->
+        <link rel="icon" type="image/png" href="https://disease.sh/assets/img/flags/ar.png">
+
+        <!-- jQuery -->
+        <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+        <!-- AngularJS -->
+        <!-- <script src="http://code.angularjs.org/1.4.8/angular.js"></script> -->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+
+        <!-- Chart -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@latest/dist/Chart.min.js"></script>
+
+        <!-- xlsx -->
+        <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+
+
+        <!-- STATIC/CSS -->
+        <link rel="stylesheet" href="static\style.css">
+
+        <!-- STATIC/JS -->
+        <script src="static\script.js"></script>
+
+        <title>TableCovidArgentina</title>
+    </head>
+    <body ng-app="myApp" ng-controller="myCtrl">
+
+      <div class="container-fluid">              <!--  container-fluid  container -->
+        <h2>
+            Table Covid-19 Argentina 
+            <img src="https://disease.sh/assets/img/flags/ar.png" alt="flag" width="50" height="31.2"> 
+            <!-- myExcelReport_Orign -->
+            <button type="button" 
+                    class="btn btn-success" 
+                    data-toggle="tooltip" data-placement="top" title="Export to Excel"
+                    ng-click="export2Excel()">
+              <img src="https://kzi.mx/wp-content/uploads/2020/02/msexcel_93695.png" width="25" height="25">          
+            </button>
+        </h2>
+
+        <img ng-if="loading" src="https://static.wixstatic.com/media/c6abac_72b300c91c794879a85fc3f8fd46ed63~mv2.gif" class="centrado">
+        <!-- ---------------------------------------------------------------------------------------------------------- -->
+        <table ng-if="!loading" class="table table-hover header_fijo">
+          <thead>
+            <tr>
+              <th ng-repeat="tag in arrayTags">
+                  {{tag | strReplace:'_':' ' | uppercase}}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="data in arrayData">
+              <td ng-repeat="tag in arrayTags">
+                <span>{{data[tag] | numLocale:'de-DE'}}</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <!-- ---------------------------------------------------------------------------------------------------------- -->
+
+        <br>
+        <h2>Graph Covid-19 Argentina <img src="https://disease.sh/assets/img/flags/ar.png" alt="flag" width="50" height="31.2"></h2>
+        <img ng-if="loading" src="https://static.wixstatic.com/media/c6abac_72b300c91c794879a85fc3f8fd46ed63~mv2.gif" class="centrado">
+        <canvas id="grafica" class="grafica"></canvas>
+
+
+        <br><br>
+        <div class="footer">
+          <p>source: <a>https://corona.lmao.ninja/v2</a> & <a>https://disease.sh/v3/covid-19</a></p>
+        </div>
+      </div>
+
+    </body>
+</html>
