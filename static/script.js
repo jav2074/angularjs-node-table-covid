@@ -398,49 +398,49 @@ app.controller('myCtrl', function($scope, $http)
     // Builds the HTML Table out of myList.
     function buildHtmlTable(myList, selector, _class, locale) 
     {
-    // debugger;
-    $(selector).html('');
-    var matrix = $('<table class="' + _class + '"/>');
-    var columns = addAllColumnHeaders(myList);
-    var thead = $('<thead/>');
-    thead.append(columns.hdr);
-    matrix.append(thead);
-    var tbody = $('<tbody/>');
-    for (var i = 0; i < myList.length; i++) 
-    {
-        var row$ = $('<tr/>');
-        for (var colIndex = 0; colIndex < columns.col.length; colIndex++) 
+        // debugger;
+        $(selector).html('');
+        var matrix = $('<table class="' + _class + '"/>');
+        var columns = addAllColumnHeaders(myList);
+        var thead = $('<thead/>');
+        thead.append(columns.hdr);
+        matrix.append(thead);
+        var tbody = $('<tbody/>');
+        for (var i = 0; i < myList.length; i++) 
         {
-        var cellValue = myList[i][columns.col[colIndex]];
-        if (cellValue == null) cellValue = "";
-        cellValue = cellValue.toLocaleString(locale);
-        //--------------------------------------------
-        row$.append($('<td/>').html(cellValue));
-        //--------------------------------------------
+            var row$ = $('<tr/>');
+            for (var colIndex = 0; colIndex < columns.col.length; colIndex++) 
+            {
+            var cellValue = myList[i][columns.col[colIndex]];
+            if (cellValue == null) cellValue = "";
+            cellValue = cellValue.toLocaleString(locale);
+            //--------------------------------------------
+            row$.append($('<td/>').html(cellValue));
+            //--------------------------------------------
+            }
+            tbody.append(row$);
         }
-        tbody.append(row$);
-    }
-    matrix.append(tbody);
-    $(selector).append(matrix);
+        matrix.append(tbody);
+        $(selector).append(matrix);
     }
     // Adds a header row to the table
     function addAllColumnHeaders(myList) 
     {
-    var columnSet = [];
-    var headerTr$ = $('<tr/>');
-    for (var i = 0; i < myList.length; i++) 
-    {
-        var rowHash = myList[i];
-        for (var key in rowHash) 
+        var columnSet = [];
+        var headerTr$ = $('<tr/>');
+        for (var i = 0; i < myList.length; i++) 
         {
-        if ($.inArray(key, columnSet) == -1) 
-        {
-            columnSet.push(key);
-            headerTr$.append($('<th/>').html(key.replace(/_/gi, " ")));
+            var rowHash = myList[i];
+            for (var key in rowHash) 
+            {
+            if ($.inArray(key, columnSet) == -1) 
+            {
+                columnSet.push(key);
+                headerTr$.append($('<th/>').html(key.replace(/_/gi, " ")));
+            }
+            }
         }
-        }
-    }
-    return {col: columnSet, hdr: headerTr$};
+        return {col: columnSet, hdr: headerTr$};
     }
     //--------------------------------------------------------------------------------------
     //--------------------------------------------------------------------------------------
@@ -463,28 +463,28 @@ app.controller('myCtrl', function($scope, $http)
         {
             if ( key == 'date' )
             {
-            var arr_etiquetas = [];
-            for (var i = 0; i < myJson.length; i++) 
-            {
-                arr_etiquetas.push(myJson[i][key]);
-            };
-            etiquetas = arr_etiquetas;
+                var arr_etiquetas = [];
+                for (var i = 0; i < myJson.length; i++) 
+                {
+                    arr_etiquetas.push(myJson[i][key]);
+                };
+                etiquetas = arr_etiquetas;
             }
             else if ( key != 'id')
             {
-            var arr_datos = [];
-            for (var i = 0; i < myJson.length; i++) 
-            {
-                arr_datos.push(myJson[i][key]);
-            };
-            var aux = {
-                label:            key.replace(/_/gi, " "),
-                data:             arr_datos,          // La data es un arreglo que debe tener la misma cantidad de valores que la cantidad de etiquetas
-                backgroundColor:  randomColor(0.2),   // 'rgba(211,93,110, 0.2)', // Color de fondo
-                borderColor:      randomColor(0.2),   // 'rgba(211,93,110, 1)',   // Color del borde
-                borderWidth:      1,                  // Ancho del borde
-            };
-            datos.push(aux);
+                var arr_datos = [];
+                for (var i = 0; i < myJson.length; i++) 
+                {
+                    arr_datos.push(myJson[i][key]);
+                };
+                var aux = {
+                    label:            key.replace(/_/gi, " "),
+                    data:             arr_datos,          // La data es un arreglo que debe tener la misma cantidad de valores que la cantidad de etiquetas
+                    backgroundColor:  randomColor(0.2),   // 'rgba(211,93,110, 0.2)', // Color de fondo
+                    borderColor:      randomColor(0.2),   // 'rgba(211,93,110, 1)',   // Color del borde
+                    borderWidth:      1,                  // Ancho del borde
+                };
+                datos.push(aux);
             }
         };
 
@@ -535,7 +535,12 @@ app.controller('myCtrl', function($scope, $http)
         for(var i=0; i<jsonData.length; i++)
         {
             delete jsonData[i]['$$hashKey'];
-        };
+            for (var key in jsonData[i])
+            {
+                if (isNaN(jsonData[i][key]))    // cambio de NaN por null
+                    jsonData[i][key] = null;
+            };
+        };debugger;
         //----------------------------------------------------------
 
         /* make the worksheet */
