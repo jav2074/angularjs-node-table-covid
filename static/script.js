@@ -250,6 +250,8 @@ app.controller('myCtrl', function($scope, $http)
                         "4/4/21": 3626,
                         "4/5/21": 3652,
                         "4/6/21": 3642,
+                        "4/7/21": 3642,
+                        "4/8/21": 3742
                         };
 
     var arrCritical = '{}';
