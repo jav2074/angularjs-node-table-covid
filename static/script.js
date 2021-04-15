@@ -286,6 +286,11 @@ app.controller('myCtrl', function($scope, $http)
         localStorage.setItem('arrCritical', JSON.stringify(arrCritical));
         // console.log(arrCritical);
     }
+    else
+    {
+        if (arrCritical[to_day] < argentina.critical)
+            arrCritical[to_day] = argentina.critical;
+    }
 
     // debugger;
     // arrayCritical = arrayCritical + arrCritical
