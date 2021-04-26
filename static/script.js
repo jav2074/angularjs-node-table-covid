@@ -273,40 +273,40 @@ app.controller('myCtrl', function($scope, $http)
     $http.get("https://corona.lmao.ninja/v2/countries/Argentina")
     .then(function(response)
     {
-    var argentina = response.data;
+        var argentina = response.data;
 
-    // debugger;
-    var to_day = format(new Date(argentina.updated - (1000 * 60 * 60 * 24)), 'M/d/yy');
+        // debugger;
+        var to_day = format(new Date(argentina.updated - (1000 * 60 * 60 * 24)), 'M/d/yy');
 
-    // Obtener el arreglo de localStorage
-    var strArrCritical = localStorage.getItem('arrCritical');
+        // Obtener el arreglo de localStorage
+        var strArrCritical = localStorage.getItem('arrCritical');
 
-    if (strArrCritical == null ) strArrCritical = '{}';
+        if (strArrCritical == null ) strArrCritical = '{}';
 
-    // Se parsea para poder ser usado en js con JSON.parse :)
-    arrCritical = JSON.parse(strArrCritical);
+        // Se parsea para poder ser usado en js con JSON.parse :)
+        arrCritical = JSON.parse(strArrCritical);
 
-    if (strArrCritical.indexOf(to_day) < 0)   // existe?
-    {
-        arrCritical[to_day] = argentina.critical;
-
-        // Guardar el array en el localStorage
-        // Se guarda en localStorage despues de JSON stringificarlo 
-        localStorage.setItem('arrCritical', JSON.stringify(arrCritical));
-        // console.log(arrCritical);
-    }
-    else
-    {
-        if (arrCritical[to_day] < argentina.critical)
+        if (strArrCritical.indexOf(to_day) < 0)   // existe?
+        {
             arrCritical[to_day] = argentina.critical;
-    }
 
-    // debugger;
-    // arrayCritical = arrayCritical + arrCritical
-    for (var key in arrCritical)
-    {
-        arrayCritical[key] = arrCritical[key];
-    };
+            // Guardar el array en el localStorage
+            // Se guarda en localStorage despues de JSON stringificarlo 
+            localStorage.setItem('arrCritical', JSON.stringify(arrCritical));
+            // console.log(arrCritical);
+        }
+        else
+        {
+            if (arrCritical[to_day] < argentina.critical)
+                arrCritical[to_day] = argentina.critical;
+        }
+
+        // debugger;
+        // arrayCritical = arrayCritical + arrCritical
+        for (var key in arrCritical)
+        {
+            arrayCritical[key] = arrCritical[key];
+        };
     });
 
     var to_day = new Date();
@@ -318,20 +318,20 @@ app.controller('myCtrl', function($scope, $http)
     $http.get("https://disease.sh/v3/covid-19/vaccine/coverage/countries/Argentina?lastdays=" + diff_days)
     .then(function(response)
     {
-    var vaccineJson = response.data.timeline;
+        var vaccineJson = response.data.timeline;
 
-    //------------------------------------------------------------------------------------------------------------------------
-    $http.get("https://corona.lmao.ninja/v2/historical/Argentina?lastdays=" + diff_days)
-    .then(function(response)
-    {
-        var dataJson = response.data.timeline;
+        //------------------------------------------------------------------------------------------------------------------------
+        $http.get("https://corona.lmao.ninja/v2/historical/Argentina?lastdays=" + diff_days)
+        .then(function(response)
+        {
+            var dataJson = response.data.timeline;
 
-                                                //arrCritical
-        buildJsonObjCovid(dataJson, vaccineJson, arrayCritical, '#idTable', 'table table-hover header_fijo', 'de-DE');
+                                                    //arrCritical
+            buildJsonObjCovid(dataJson, vaccineJson, arrayCritical, '#idTable', 'table table-hover header_fijo', 'de-DE');
 
-        $scope.loading = false;
-    });
-    //------------------------------------------------------------------------------------------------------------------------
+            $scope.loading = false;
+        });
+        //------------------------------------------------------------------------------------------------------------------------
     });
     //---------------------------------------------------------------------------------------------------------------------------
     //---------------------------------------------------------------------------------------------------------------------------
@@ -349,20 +349,20 @@ app.controller('myCtrl', function($scope, $http)
     {
         var dateKey = new Date(key)
         var d = format(dateKey, 'yyyy-MM-dd');  // dateKey.toISOString().substr(0, 10);     // YYYY-MM-DD
-        // var weekday = new Array(7);
-        // weekday[0] = "Sunday";
-        // weekday[1] = "Monday";
-        // weekday[2] = "Tuesday";
-        // weekday[3] = "Wednesday";
-        // weekday[4] = "Thursday";
-        // weekday[5] = "Friday";
-        // weekday[6] = "Saturday";
-        // var n = weekday[dateKey.getDay()];
+        var weekday = new Array(7);
+        weekday[0] = "Su";  // "Sunday";  // 
+        weekday[1] = "Mo";  // "Monday";
+        weekday[2] = "Tu";  // "Tuesday";
+        weekday[3] = "We";  // "Wednesday";
+        weekday[4] = "Th";  // "Thursday";
+        weekday[5] = "Fr";  // "Friday";
+        weekday[6] = "Sa";  // "Saturday";
+        var n = weekday[dateKey.getDay()];
 
         var aux = { 
                     "id":                 i, 
                     "date":               d,
-                    // "day":                n,
+                    "day":                n,
                     "cases":              array.cases[key],
                     "deaths":             array.deaths[key], 
                     "recovered":          array.recovered[key],
@@ -386,7 +386,8 @@ app.controller('myCtrl', function($scope, $http)
     $scope.arrayTags = [];
     for (var key in jsonObj[0])
     {
-        $scope.arrayTags.push(key);
+        if(key != "day")
+            $scope.arrayTags.push(key);
     };
     //------------------------------------------------------------------------------------------
     buildHtmlGraph(jsonObj, "#grafica");

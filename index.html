@@ -63,7 +63,12 @@
           <tbody>
             <tr ng-repeat="data in arrayData">
               <td ng-repeat="tag in arrayTags">
-                <span>{{data[tag] | numLocale:'de-DE'}}</span>
+                <div ng-if="data.day == 'Su'">
+                  <span style="color:gray">{{data[tag] | numLocale:'de-DE'}}</span>
+                </div>
+                <div ng-if="data.day != 'Su'">
+                  <span>{{data[tag] | numLocale:'de-DE'}}</span>
+                </div>
               </td>
             </tr>
           </tbody>
