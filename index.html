@@ -63,10 +63,10 @@
           <tbody>
             <tr ng-repeat="data in arrayData">
               <td ng-repeat="tag in arrayTags">
-                <div ng-if="data.day == 'Su'">
+                <div ng-if="data.day == 'Su' || data.day == 'Sa'">
                   <span style="color:gray">{{data[tag] | numLocale:'de-DE'}}</span>
                 </div>
-                <div ng-if="data.day != 'Su'">
+                <div ng-if="!(data.day == 'Su' || data.day == 'Sa')">
                   <span>{{data[tag] | numLocale:'de-DE'}}</span>
                 </div>
               </td>
