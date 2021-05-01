@@ -613,7 +613,14 @@ app.controller('myCtrl', function($scope, $http)
     //======================================================================================
     $scope.export2Excel = function ()
     {
-        exportToExcel_Orign ($scope.arrayTags, $scope.arrayData, 'Covid-19_Argentina');
+        var aux_arrayTags = [];
+        var aux_arrayData = angular.copy( $scope.arrayData );
+        for (var key in aux_arrayData[0])
+        {
+            var res = key.replace("avg", "avg" + $scope.selectedAvgDays + "d");
+            aux_arrayTags.push(res);
+        };
+        exportToExcel_Orign (aux_arrayTags, aux_arrayData, 'Covid-19_Argentina');
     };
     //======================================================================================
     //======================================================================================
@@ -629,10 +636,13 @@ app.controller('myCtrl', function($scope, $http)
             delete jsonData[i]['$$hashKey'];
             for (var key in jsonData[i])
             {
-                if (isNaN(jsonData[i][key]))    // cambio de NaN por null
-                    jsonData[i][key] = null;
+                if (isNaN(jsonData[i][key]))
+                {
+                    if (typeof jsonData[i][key] === 'number' || jsonData[i][key] instanceof Number)
+                        jsonData[i][key] = 0; // null; // cambio de NaN por CERO // null
+                }
             };
-        };debugger;
+        };
         //----------------------------------------------------------
 
         /* make the worksheet */
