@@ -6,6 +6,13 @@ app.controller('myCtrl', function($scope, $http)
 {
     $scope.loading = true;
 
+    $scope.arrAvgDays = [3, 5, 7, 10, 12, 14, 21, 28, 35, 42, 49, 56, 63, 70];
+    
+    // Obtener el arreglo de localStorage
+    var auxLS = localStorage.getItem('selectedAvgDays');
+    if (auxLS === null ) $scope.selectedAvgDays = $scope.arrAvgDays[2];
+    else $scope.selectedAvgDays = parseInt(auxLS);
+
     var arrayCritical = { "8/6/20":1150  ,
                         "8/7/20":1293  ,
                         "8/8/20":1502  ,
@@ -275,7 +282,8 @@ app.controller('myCtrl', function($scope, $http)
                         "4/29/21": 5317,
                         "4/30/21": 5369,
                         };
-
+    var dataJson = [];
+    var vaccineJson = [];
     var arrCritical = '{}';
 
     $http.get("https://corona.lmao.ninja/v2/countries/Argentina")
@@ -326,45 +334,54 @@ app.controller('myCtrl', function($scope, $http)
     $http.get("https://disease.sh/v3/covid-19/vaccine/coverage/countries/Argentina?lastdays=" + diff_days)
     .then(function(response)
     {
-        var vaccineJson = response.data.timeline;
+        vaccineJson = response.data.timeline;
 
         //------------------------------------------------------------------------------------------------------------------------
         $http.get("https://corona.lmao.ninja/v2/historical/Argentina?lastdays=" + diff_days)
         .then(function(response)
         {
-            var dataJson = response.data.timeline;
+            dataJson = response.data.timeline;
 
                                                     //arrCritical
-            buildJsonObjCovid(dataJson, vaccineJson, arrayCritical, '#idTable', 'table table-hover header_fijo', 'de-DE');
+            buildJsonObjCovid(dataJson, vaccineJson, arrayCritical, '#idTable', 'table table-hover header_fijo', 'de-DE', $scope.selectedAvgDays);
 
             $scope.loading = false;
         });
         //------------------------------------------------------------------------------------------------------------------------
     });
     //---------------------------------------------------------------------------------------------------------------------------
+    $scope.updateAvgDays = function()
+    {
+        // Se guarda en localStorage despues de JSON stringificarlo 
+        localStorage.setItem('selectedAvgDays', $scope.selectedAvgDays);
+
+        // reinicio todo
+        window.location.reload();
+    };
+    //---------------------------------------------------------------------------------------------------------------------------
     //---------------------------------------------------------------------------------------------------------------------------
 
 
     //---------------------------------------------------------------------------------------------------------------------------
     //---------------------------------------------------------------------------------------------------------------------------
-    function buildJsonObjCovid(array, vaccine, critical, selector, _class, locale) 
+    function buildJsonObjCovid(array, vaccine, critical, selector, _class, locale, avg) 
     {
     // debugger;
     var jsonObj = [];
     var i=0;
     var ytd_key;
     var acumObj = [];
-    acumObj["avg14d_cases"] = [];
-    acumObj["avg14d_infected"] = [];
-    acumObj["avg14d_deaths"] = [];
-    acumObj["avg14d_recovered"] = [];
-    acumObj["avg14d_infected"] = [];
-    acumObj["avg14d_vaccine"] = [];
-    acumObj["avg14d_critical"] = [];
-    acumObj["avg14d_daily_cases"] = [];
-    acumObj["avg14d_daily_deaths"] = [];
-    acumObj["avg14d_daily_recovered"] = [];
-    acumObj["avg14d_daily_vaccine"] = [];
+    acumObj["avg_cases"] = [];
+    acumObj["avg_infected"] = [];
+    acumObj["avg_deaths"] = [];
+    acumObj["avg_recovered"] = [];
+    acumObj["avg_infected"] = [];
+    acumObj["avg_vaccine"] = [];
+    acumObj["avg_critical"] = [];
+    acumObj["avg_daily_cases"] = [];
+    acumObj["avg_daily_deaths"] = [];
+    acumObj["avg_daily_recovered"] = [];
+    acumObj["avg_daily_vaccine"] = [];
 
     for ( var key in array.cases )
     {
@@ -391,26 +408,26 @@ app.controller('myCtrl', function($scope, $http)
                     "date":               d,
                     "day":                n,
                     "cases":              array.cases[key],
-                    "avg14d_cases":        movingAverage(i, acumObj["avg14d_cases"],14, array.cases[key]),
+                    "avg_cases":          movingAverage(i, acumObj["avg_cases"], avg, array.cases[key]),
                     "deaths":             array.deaths[key], 
-                    "avg14d_deaths":       movingAverage(i, acumObj["avg14d_deaths"],14, array.deaths[key]),
+                    "avg_deaths":         movingAverage(i, acumObj["avg_deaths"], avg, array.deaths[key]),
                     "recovered":          array.recovered[key],
-                    "avg14d_recovered":    movingAverage(i, acumObj["avg14d_recovered"],14, array.recovered[key]),
+                    "avg_recovered":      movingAverage(i, acumObj["avg_recovered"], avg, array.recovered[key]),
                     "infected":           infected,
-                    "avg14d_infected":     movingAverage(i, acumObj["avg14d_infected"],14, infected),
+                    "avg_infected":       movingAverage(i, acumObj["avg_infected"], avg, infected),
                     "vaccine":            Math.abs(vaccine[key] - 0),
-                    "avg14d_vaccine":      movingAverage(i, acumObj["avg14d_vaccine"],14, Math.abs(vaccine[key] - 0)),
+                    "avg_vaccine":        movingAverage(i, acumObj["avg_vaccine"], avg, Math.abs(vaccine[key] - 0)),
                     "critical":           Math.abs(critical[key] - 0),
-                    "avg14d_critical":     movingAverage(i, acumObj["avg14d_critical"],14, Math.abs(critical[key] - 0)),
+                    "avg_critical":       movingAverage(i, acumObj["avg_critical"], avg, Math.abs(critical[key] - 0)),
 
-                    "daily_cases":              daily_cases,
-                    "avg14d_daily_cases":        movingAverage(i, acumObj["avg14d_daily_cases"],14, daily_cases),
-                    "daily_deaths":             daily_deaths,
-                    "avg14d_daily_deaths":       movingAverage(i, acumObj["avg14d_daily_deaths"],14, daily_deaths),
-                    "daily_recovered":          daily_recovered,
-                    "avg14d_daily_recovered":    movingAverage(i, acumObj["avg14d_daily_recovered"],14, daily_recovered),
-                    "daily_vaccine":            daily_vaccine,
-                    "avg14d_daily_vaccine":      movingAverage(i, acumObj["avg14d_daily_vaccine"],14, daily_vaccine),
+                    "daily_cases":          daily_cases,
+                    "avg_daily_cases":      movingAverage(i, acumObj["avg_daily_cases"], avg, daily_cases),
+                    "daily_deaths":         daily_deaths,
+                    "avg_daily_deaths":     movingAverage(i, acumObj["avg_daily_deaths"], avg, daily_deaths),
+                    "daily_recovered":      daily_recovered,
+                    "avg_daily_recovered":  movingAverage(i, acumObj["avg_daily_recovered"], avg, daily_recovered),
+                    "daily_vaccine":        daily_vaccine,
+                    "avg_daily_vaccine":    movingAverage(i, acumObj["avg_daily_vaccine"], avg, daily_vaccine),
                 };
         jsonObj.push(aux);
 
