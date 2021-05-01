@@ -266,6 +266,14 @@ app.controller('myCtrl', function($scope, $http)
                         "4/20/21": 4366,
                         "4/21/21": 4791,
                         "4/22/21": 4791,
+                        "4/23/21": 4805,
+                        "4/24/21": 4858,
+                        "4/25/21": 4942,
+                        "4/26/21": 5036,
+                        "4/27/21": 5134,
+                        "4/28/21": 5178,
+                        "4/29/21": 5317,
+                        "4/30/21": 5369,
                         };
 
     var arrCritical = '{}';
@@ -345,6 +353,19 @@ app.controller('myCtrl', function($scope, $http)
     var jsonObj = [];
     var i=0;
     var ytd_key;
+    var acumObj = [];
+    acumObj["avg14d_cases"] = [];
+    acumObj["avg14d_infected"] = [];
+    acumObj["avg14d_deaths"] = [];
+    acumObj["avg14d_recovered"] = [];
+    acumObj["avg14d_infected"] = [];
+    acumObj["avg14d_vaccine"] = [];
+    acumObj["avg14d_critical"] = [];
+    acumObj["avg14d_daily_cases"] = [];
+    acumObj["avg14d_daily_deaths"] = [];
+    acumObj["avg14d_daily_recovered"] = [];
+    acumObj["avg14d_daily_vaccine"] = [];
+
     for ( var key in array.cases )
     {
         var dateKey = new Date(key)
@@ -359,36 +380,67 @@ app.controller('myCtrl', function($scope, $http)
         weekday[6] = "Sa";  // "Saturday";
         var n = weekday[dateKey.getDay()];
 
+        var infected = Math.abs(array.cases[key] - array.deaths[key] - array.recovered[key]);
+        var daily_cases = Math.abs(array.cases[key] - array.cases[ytd_key]);
+        var daily_deaths = Math.abs(array.deaths[key] - array.deaths[ytd_key]);
+        var daily_recovered = Math.abs(array.recovered[key] - array.recovered[ytd_key]);
+        var daily_vaccine = Math.abs(vaccine[key] - vaccine[ytd_key]);
+
         var aux = { 
                     "id":                 i, 
                     "date":               d,
                     "day":                n,
                     "cases":              array.cases[key],
+                    "avg14d_cases":        movingAverage(i, acumObj["avg14d_cases"],14, array.cases[key]),
                     "deaths":             array.deaths[key], 
+                    "avg14d_deaths":       movingAverage(i, acumObj["avg14d_deaths"],14, array.deaths[key]),
                     "recovered":          array.recovered[key],
-                    "infected":           Math.abs(array.cases[key] - array.deaths[key] - array.recovered[key]),
+                    "avg14d_recovered":    movingAverage(i, acumObj["avg14d_recovered"],14, array.recovered[key]),
+                    "infected":           infected,
+                    "avg14d_infected":     movingAverage(i, acumObj["avg14d_infected"],14, infected),
                     "vaccine":            Math.abs(vaccine[key] - 0),
+                    "avg14d_vaccine":      movingAverage(i, acumObj["avg14d_vaccine"],14, Math.abs(vaccine[key] - 0)),
                     "critical":           Math.abs(critical[key] - 0),
+                    "avg14d_critical":     movingAverage(i, acumObj["avg14d_critical"],14, Math.abs(critical[key] - 0)),
 
-                    "daily_cases":        Math.abs(array.cases[key] - array.cases[ytd_key]), 
-                    "daily_deaths":       Math.abs(array.deaths[key] - array.deaths[ytd_key]),
-                    "daily_recovered":    Math.abs(array.recovered[key] - array.recovered[ytd_key]),
-                    "daily_vaccine":      Math.abs(vaccine[key] - vaccine[ytd_key]),  
+                    "daily_cases":              daily_cases,
+                    "avg14d_daily_cases":        movingAverage(i, acumObj["avg14d_daily_cases"],14, daily_cases),
+                    "daily_deaths":             daily_deaths,
+                    "avg14d_daily_deaths":       movingAverage(i, acumObj["avg14d_daily_deaths"],14, daily_deaths),
+                    "daily_recovered":          daily_recovered,
+                    "avg14d_daily_recovered":    movingAverage(i, acumObj["avg14d_daily_recovered"],14, daily_recovered),
+                    "daily_vaccine":            daily_vaccine,
+                    "avg14d_daily_vaccine":      movingAverage(i, acumObj["avg14d_daily_vaccine"],14, daily_vaccine),
                 };
         jsonObj.push(aux);
 
         ytd_key = key;
         i++;
     };
+    // Function to calculate n-Day Simple moving average
+    function movingAverage(index, arrAcum, numOfDays, data)
+    {
+        //--------------------------------------------------------------
+        var i = index % numOfDays;
+        arrAcum[i] = data;
+        var auxAcum = 0;
+        for (var j = 0; j < numOfDays; j++)
+        {
+            auxAcum += arrAcum[j];
+        };
+        //--------------------------------------------------------------
+        return Math.abs((auxAcum/numOfDays).toFixed());
+    }
     // buildHtmlTable(jsonObj, selector, _class, locale);
     //------------------------------------------------------------------------------------------
     $scope.arrayData = jsonObj;
     $scope.arrayTags = [];
     for (var key in jsonObj[0])
     {
-        if(key != "day")
+        if(key != "day" && key.indexOf('avg')<0)
             $scope.arrayTags.push(key);
     };
+    // console.log(jsonObj);
     //------------------------------------------------------------------------------------------
     buildHtmlGraph(jsonObj, "#grafica");
     };
@@ -492,7 +544,7 @@ app.controller('myCtrl', function($scope, $http)
                 };
                 etiquetas = arr_etiquetas;
             }
-            else if ( key != 'id')
+            else if ( key != 'id' &&  key != 'day')
             {
                 var arr_datos = [];
                 for (var i = 0; i < myJson.length; i++) 
@@ -502,15 +554,16 @@ app.controller('myCtrl', function($scope, $http)
                 var aux = {
                     label:            key.replace(/_/gi, " "),
                     data:             arr_datos,          // La data es un arreglo que debe tener la misma cantidad de valores que la cantidad de etiquetas
-                    backgroundColor:  randomColor(0.2),   // 'rgba(211,93,110, 0.2)', // Color de fondo
-                    borderColor:      randomColor(0.2),   // 'rgba(211,93,110, 1)',   // Color del borde
+                    backgroundColor:  (key.indexOf('avg')<0)? randomColor(0.2):'rgba(0,0,0, 0)',   // 'rgba(211,93,110, 0.2)', // Color de fondo
+                    borderColor:      (key.indexOf('avg')<0)? randomColor(0.2):'rgba(0,0,0, 1)',   // 'rgba(211,93,110, 1)',   // Color del borde
                     borderWidth:      1,                  // Ancho del borde
                 };
                 datos.push(aux);
             }
         };
 
-        new Chart($grafica, {
+        // new Chart($grafica, {
+        var chart = new Chart($grafica, {
             type: 'line', // Tipo de gráfica
             data: {
                 labels: etiquetas,
@@ -525,7 +578,7 @@ app.controller('myCtrl', function($scope, $http)
                     }],
                 },
             }
-        });           
+        });
     };
     //--------------------------------------------------------------------------------------
     function randomColor(opac)
