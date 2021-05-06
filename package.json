@@ -12,6 +12,7 @@
   },
   "keywords": [
     "node",
+    "pg",
     "heroku"
   ],
   "author": "Jav",
