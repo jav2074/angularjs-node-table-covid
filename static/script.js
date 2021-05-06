@@ -6,10 +6,10 @@ app.controller('myCtrl', function($scope, $http)
 {
     // ------------------------------------------------------------------------
     $http.get('db\connect.php')
-    .success(function(data)
+    .then(function(response)
     {
-        $scope.customers = data;
-        console.log(data);
+        $scope.customers = response;
+        console.log(response);
     });
     // ------------------------------------------------------------------------
 
