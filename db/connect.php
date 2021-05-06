@@ -4,9 +4,12 @@
    $dbname      = "dbname=d88b87tlfnisig";
    $credentials = "user=aqtlcgojywysbt password=d61b9972b2ad8c79abcc2ca1c80db021e6fd13e877dd42972b776bc5f18f845b";
 
-   $db = pg_connect( "$host $port $dbname $credentials"  );
+   // $db = pg_connect( "$host $port $dbname $credentials"  );
 
-//    $sql =<<<EOF
+   $url = "postgres://aqtlcgojywysbt:d61b9972b2ad8c79abcc2ca1c80db021e6fd13e877dd42972b776bc5f18f845b@ec2-54-90-211-192.compute-1.amazonaws.com:5432/d88b87tlfnisig";
+   $db = pg_connect( "$url"  );
+
+   //    $sql =<<<EOF
 //       SELECT * FROM tabla;
 // EOF;
 
