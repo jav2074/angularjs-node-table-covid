@@ -5,7 +5,7 @@ var app = angular.module('myApp', []);
 app.controller('myCtrl', function($scope, $http)
 {
     // ------------------------------------------------------------------------
-    $http.get('db\connect.php')
+    $http.get('..\db\connect.php')
     .then(function(response)
     {
         $scope.customers = response;
