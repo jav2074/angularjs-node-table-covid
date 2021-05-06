@@ -4,6 +4,15 @@
 var app = angular.module('myApp', []);
 app.controller('myCtrl', function($scope, $http)
 {
+    // ------------------------------------------------------------------------
+    $http.get('db\connect.php')
+    .success(function(data)
+    {
+        $scope.customers = data;
+        console.log(data);
+    });
+    // ------------------------------------------------------------------------
+
     $scope.loading = true;
 
     $scope.arrAvgDays = [3, 5, 7, 10, 12, 14, 21, 28, 35, 42, 49, 56, 63, 70];
