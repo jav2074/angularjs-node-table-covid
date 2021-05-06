@@ -5,12 +5,19 @@ var app = angular.module('myApp', []);
 app.controller('myCtrl', function($scope, $http)
 {
     // ------------------------------------------------------------------------
-    $http.get('db/connect.php')
-    .then(function(response)
-    {
-        $scope.customers = response;
-        console.log(response);
-    });
+    // var sampleObject = { id:0, name:'Pepe' };    
+    // var jsonse = JSON.stringify(sampleObject);
+    // $http({
+    //     url: 'http://localhost:5503/json',
+    //     method: "POST",
+    //     data: sampleObject, // jsonse, //'DATA-data-DATA',
+    //     header: 'Content-Type: application/json'
+    // })
+    // .then(function(response)
+    // {
+    //     console.log("response: ");
+    //     console.log(response);
+    // });
     // ------------------------------------------------------------------------
 
     $scope.loading = true;

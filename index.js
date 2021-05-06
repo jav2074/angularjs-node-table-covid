@@ -1,6 +1,7 @@
 var express = require('express');
 var app = express();
 var path = require('path');
+var fs = require('fs');
 
 const PORT = process.env.PORT || 5000
 
@@ -11,6 +12,18 @@ app.use(express.static(__dirname + '/'));
 app.get('/', function(req, res) {
   res.sendFile(path.join(buildPath, 'index.html'));
 });
+
+// ------------------------------------------------------------------------
+// app.post('/json', function (req, res) {
+//   fs.writeFile(__dirname+"/my_post.json", req.body, function(err) {
+//     if(err) {
+//       console.log("Error: ");
+//       return console.log(err);
+//     }
+//     res.send('The file was saved!');
+//   }); 
+// });
+// ------------------------------------------------------------------------
 
 app.listen(PORT);
 
