@@ -9,7 +9,6 @@ const buildPath = path.resolve(__dirname, '/');
 app.use(express.static(__dirname + '/'));
 
 app.get('/', function(req, res) {
-  res.sendFile(path.join(buildPath, 'index.html'));
 
   console.log('DATABASE_URL: ' + DATABASE_URL);
   pg.defaults.ssl = true;
@@ -20,6 +19,8 @@ app.get('/', function(req, res) {
       console.log(JSON.stringify(row));
       });
   });
+
+  res.sendFile(path.join(buildPath, 'index.html'));
 });
 
 app.listen(PORT);
