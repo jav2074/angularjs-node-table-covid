@@ -16,12 +16,13 @@ app.listen(PORT);
 
 
 // ----------------------------------------------------------------
-var pg = require('pg');
-console.log('DATABASE_URL: ' + DATABASE_URL);
-pg.connect(process.env.DATABASE_URL, function(err, client) {
-  var query = client.query('SELECT * FROM your_table');
-  query.on('row', function(row) {
-    console.log(JSON.stringify(row));
-  });
-});
+// var pg = require('pg');
+// console.log('DATABASE_URL: ' + DATABASE_URL);
+// pg.connect(process.env.DATABASE_URL, function(err, client) {
+//   var query = client.query('SELECT * FROM your_table');
+//   query.on('row', function(row) {
+//     console.log(JSON.stringify(row));
+//   });
+// });
+// "pg": "^0.5.4"
 // ----------------------------------------------------------------
