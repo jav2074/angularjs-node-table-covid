@@ -308,6 +308,8 @@ app.controller('myCtrl', function($scope, $http)
                         "5/9/21": 5321,
                         "5/10/21": 5348,
                         "5/11/21": 5375,
+                        "5/12/21": 5394,
+                        "5/13/21": 5420,
                         };
     var dataJson = [];
     var vaccineJson = [];
