@@ -3,18 +3,40 @@
     <!-- ------------------------------------------------------------------------------- -->
     <h2>Music</h2>
     <h4> Scala: 
-      <select ng-model="selectedEscala" 
-              ng-change="changeEscala()"
-              ng-options="x.name for x in arrayCirculoQuintas | orderBy:'order'">
+      <select 
+        ng-init="selectedEscala = arrayCirculoQuintas[0]; changeEscala();" 
+        ng-model="selectedEscala"
+        ng-change="changeEscala()"
+        ng-options="x.ciph for x in arrayCirculoQuintas | orderBy:'order'">
       </select>
     </h4>
-
-    <div style="position:absolute; top:150px; left:200px; visibility:visible; z-index:1">
-      <img src="assets\img\MUSCIA_-_CirculoQuintas.png" width="300" height="294">
+    <div class="row">
+      <div class="col-sm-6">
+        <textarea class="form-control"
+                  rows="12"
+                  ng-model="Notas"
+                  maxlength="256"
+                  no-special-characters></textarea>
+      </div>
+      <div class="col-sm-6">
+        <div style="position:absolute; top:10px; left:10px; visibility:visible; z-index:1">
+          <img src="assets\img\MUSCIA_-_CirculoQuintas.png" width="300" height="294">
+        </div>
+        <div style="position:absolute; top:10px; left:10px; visibility:visible; z-index:1">
+          <img id="imgArrows" src="assets\img\MUSCIA_-_CirculoQuintasArmoniaNegativa.png" width="300" height="294">
+        </div>
+      </div>
     </div>
-    <div style="position:absolute; top:150px; left:200px; visibility:visible; z-index:1">
-      <img id="imgArrows" src="assets\img\MUSCIA_-_CirculoQuintasArmoniaNegativa.png" width="300" height="294">
-    </div>
+    
+    <!-- <div class="form-group">
+      <label for="">Scala: </label>
+      <select 
+        ng-init="selectedEscala = arrayCirculoQuintas[0]" 
+        ng-model="selectedEscala"
+        ng-change="changeEscala()"
+        ng-options="x.ciph for x in arrayCirculoQuintas | orderBy:'order'">
+      </select>
+    </div> -->
     <!-- ------------------------------------------------------------------------------- -->
   </div>
 </div>
