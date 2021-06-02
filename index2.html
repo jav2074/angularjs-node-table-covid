@@ -1,0 +1,20 @@
+<div ng-controller="myCtrl2">
+  <div class="container-fluid">
+    <!-- ------------------------------------------------------------------------------- -->
+    <h2>Music</h2>
+    <h4> Scala: 
+      <select ng-model="selectedEscala" 
+              ng-change="changeEscala()"
+              ng-options="x.name for x in arrayCirculoQuintas | orderBy:'order'">
+      </select>
+    </h4>
+
+    <div style="position:absolute; top:150px; left:200px; visibility:visible; z-index:1">
+      <img src="assets\img\MUSCIA_-_CirculoQuintas.png" width="300" height="294">
+    </div>
+    <div style="position:absolute; top:150px; left:200px; visibility:visible; z-index:1">
+      <img id="imgArrows" src="assets\img\MUSCIA_-_CirculoQuintasArmoniaNegativa.png" width="300" height="294">
+    </div>
+    <!-- ------------------------------------------------------------------------------- -->
+  </div>
+</div>
