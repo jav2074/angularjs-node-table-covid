@@ -32,13 +32,23 @@ body {
     background-color: #DDD;
 }
 
+table{ 
+    background-color: white;
+    text-align: center;
+}
+.gi-1x5{font-size: 1.5em;}
+.gi-2x{font-size: 2em;}
+.gi-3x{font-size: 3em;}
+.gi-4x{font-size: 4em;}
+.gi-5x{font-size: 5em;}
+
 .header_fijo th, td {
     /*white-space: nowrap;*/
     /*            width: 25%;
     min-width: 100px;*/
     min-width: 107.5px; /* 8,33%; */   /* 106.5px; */
     max-width: 107.5px; /* 8,33%; */   /* 106.5px; */
-    text-align: right;
+    text-align: center; /* text-align: right; */
 }
 .header_fijo {
     width: 100%;     /* 750px; auto*/

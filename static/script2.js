@@ -16,22 +16,20 @@ app.controller('myCtrl2', function($scope)
         {'id': 10,  'order': 10,    'name': 'Sib',      'ciph': 'Bb'},
         {'id': 11,  'order': 5,     'name': 'Fa',       'ciph': 'F'},
     ];
-    // $scope.selectedEscala = $scope.arrayCirculoQuintas[0];   // default Do
     $scope.selectedMayorMenor = 0;  // 0 = Mayor, -3 = Menor 
     //--------------------------------------------------------------------------------------
     $scope.changeEscala = function()
     {
         // debugger;
-        // console.log($scope.selectedEscala);
         var id = $scope.selectedEscala.id;
         rotate(id*30);
-        var aux = $scope.arrayCirculoQuintas[id].ciph + " <--> " + $scope.arrayCirculoQuintas[inc(id,1)].ciph + "\n";
-        aux += $scope.arrayCirculoQuintas[dec(id,1)].ciph + " <--> " + $scope.arrayCirculoQuintas[inc(id,2)].ciph + "\n";
-        aux += $scope.arrayCirculoQuintas[dec(id,2)].ciph + " <--> " + $scope.arrayCirculoQuintas[inc(id,3)].ciph + "\n";
-        aux += $scope.arrayCirculoQuintas[dec(id,3)].ciph + " <--> " + $scope.arrayCirculoQuintas[inc(id,4)].ciph + "\n";
-        aux += $scope.arrayCirculoQuintas[dec(id,4)].ciph + " <--> " + $scope.arrayCirculoQuintas[inc(id,5)].ciph + "\n";
-        aux += $scope.arrayCirculoQuintas[dec(id,5)].ciph + " <--> " + $scope.arrayCirculoQuintas[inc(id,6)].ciph + "\n";
-        $scope.Notas = aux;
+
+        $scope.notes = [];
+        for (var i=0; i<12; i++)
+        {
+            var aux = {'origin': $scope.arrayCirculoQuintas[dec(id,i)], 'neg': $scope.arrayCirculoQuintas[inc(id,i+1)]};
+            $scope.notes.push(aux);
+        };
     };
     //--------------------------------------------------------------------------------------
     function inc(value, plus)
