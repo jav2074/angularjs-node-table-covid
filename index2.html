@@ -15,7 +15,7 @@
         <!-- --------------------------------------------------------------------------- -->
         <table class="table table-bordered">
           <tbody>
-            <tr ng-repeat="n in notes">
+            <tr ng-repeat="n in notes | orderBy:'origin.order'">
               <td>
                 <span>{{n.origin.ciph}}</span>
               </td>
