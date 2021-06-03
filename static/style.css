@@ -32,7 +32,7 @@ body {
     background-color: #DDD;
 }
 
-table{ 
+table { 
     background-color: white;
     text-align: center;
 }
@@ -41,6 +41,11 @@ table{
 .gi-3x{font-size: 3em;}
 .gi-4x{font-size: 4em;}
 .gi-5x{font-size: 5em;}
+
+#imgArrows, #imgCircle { 
+    width: 400px;       /* 300px; */
+    height: 392px;      /* 294px; */
+}
 
 .header_fijo th, td {
     /*white-space: nowrap;*/
