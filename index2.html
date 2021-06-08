@@ -2,14 +2,33 @@
   <div class="container-fluid">
     <!-- ------------------------------------------------------------------------------- -->
     <h2>Negative Harmony</h2>
-    <h4> Tone: 
-      <select 
-        ng-init="selectedEscala = arrayCirculoQuintas[0]; changeEscala();" 
-        ng-model="selectedEscala"
-        ng-change="changeEscala()"
-        ng-options="x.ciph for x in arrayCirculoQuintas | orderBy:'order'">
-      </select>
-    </h4>
+    <div class="row">
+      <!-- ----------------------------------------------------------------------------- -->
+      <div class="col-sm-3">
+        <h4> Tone: 
+          <select 
+            ng-init="selectedEscala = arrayCirculoQuintas[0]; changeEscala();" 
+            ng-model="selectedEscala"
+            ng-change="changeEscala()"
+            ng-options="x.ciph for x in arrayCirculoQuintas | orderBy:'order'">
+          </select>
+        </h4>
+      </div>
+      <!-- ----------------------------------------------------------------------------- -->
+      <div class="col-sm-4"></div>
+      <!-- ----------------------------------------------------------------------------- -->
+      <div class="col-sm-3">
+        <h4> Chords: 
+          <select 
+            ng-init="selectedChords = arrayChords[0]; changeChords();" 
+            ng-model="selectedChords"
+            ng-change="changeChords()"
+            ng-options="x.name for x in arrayChords | orderBy:'id'">
+          </select>
+        </h4>
+      </div>
+      <!-- ----------------------------------------------------------------------------- -->
+    </div>
     <div class="row">
       <div class="col-sm-3">
         <!-- --------------------------------------------------------------------------- -->
@@ -20,10 +39,7 @@
                 <span>{{n.origin.ciph}}</span>
               </td>
               <td>
-                <!-- <span class="glyphicon glyphicon-resize-horizontal gi-1x"></span> -->
                 <span class="glyphicon glyphicon-arrow-left"></span>
-                <!-- <span class="glyphicon glyphicon-refresh"></span> -->
-                <!-- <span class="glyphicon glyphicon-minus"></span> -->
                 <span class="glyphicon glyphicon-arrow-right"></span>
               </td>
               <td>
@@ -34,13 +50,33 @@
         </table>
         <!-- --------------------------------------------------------------------------- -->
       </div>
-      <div class="col-sm-6">
+      <div class="col-sm-4">
         <div style="position:absolute; top:0px; left:10px; visibility:visible; z-index:1">
           <img id="imgCircle" src="assets\img\MUSCIA_-_CirculoQuintas.png">
         </div>
         <div style="position:absolute; top:0px; left:10px; visibility:visible; z-index:1">
           <img id="imgArrows" src="assets\img\MUSCIA_-_CirculoQuintasArmoniaNegativa.png">
         </div>
+      </div>
+      <div class="col-sm-3">
+        <!-- --------------------------------------------------------------------------- -->
+        <table class="table table-bordered">
+          <tbody>
+            <tr ng-repeat="n in chords | orderBy:'origin.order'">
+              <td>
+                <span>{{n.origin.ciph}}</span>
+              </td>
+              <td>
+                <span class="glyphicon glyphicon-arrow-left"></span>
+                <span class="glyphicon glyphicon-arrow-right"></span>
+              </td>
+              <td>
+                <span>{{n.neg.ciph}}</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <!-- --------------------------------------------------------------------------- -->
       </div>
     </div>
     

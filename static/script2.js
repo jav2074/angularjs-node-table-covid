@@ -16,7 +16,6 @@ app.controller('myCtrl2', function($scope)
         {'id': 10,  'order': 10,    'name': 'Sib',      'ciph': 'Bb'},
         {'id': 11,  'order': 5,     'name': 'Fa',       'ciph': 'F'},
     ];
-    $scope.selectedMayorMenor = 0;  // 0 = Mayor, -3 = Menor 
     //--------------------------------------------------------------------------------------
     $scope.changeEscala = function()
     {
@@ -54,6 +53,31 @@ app.controller('myCtrl2', function($scope)
         document.getElementById('imgArrows').style.msTransform="rotate(" + value + "deg)";
         document.getElementById('imgArrows').style.transform="rotate(" + value + "deg)";
     };
+    //--------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------
+    $scope.arrayChords = [
+        {'id': 0,   'name': 'Triada'},
+        {'id': 1,   'name': 'con 7°'},
+        {'id': 2,   'name': 'con 9°'},
+        {'id': 3,   'name': 'con 11°'},
+        {'id': 4,   'name': 'con 13°'},
+    ];
+    //--------------------------------------------------------------------------------------
+    $scope.changeChords = function()
+    {
+        // debugger;
+        var id = $scope.selectedChords.id;
+        $scope.chords = [];
+        for (var i=0; i<7; i++)
+        {
+            for (var j=0; j<(3+id); j++)
+            {
+                var aux = {'origin': $scope.arrayCirculoQuintas[dec(id,i)], 'neg': $scope.arrayCirculoQuintas[inc(id,i+1)]};
+                $scope.chords.push(aux);
+            };
+        };
+    };
+    //--------------------------------------------------------------------------------------
     //======================================================================================
     //======================================================================================
 });
