@@ -69,14 +69,15 @@ app.controller('myCtrl2', function($scope)
         {'id': 3,   'name': 'con 11°'},
         {'id': 4,   'name': 'con 13°'},
     ];
+    $scope.intervalsMayorScale = [0,2,4,5,7,9,11];
     $scope.chordsMayorScale = [
-        {'id': 0, 'intervals':[0,4,7,11,14,17,21], 'name': 'Imaj7-9-11-13'},     // Imaj7-9-11-13
-        {'id': 1, 'intervals':[0,3,7,10,14,17,20], 'name': 'IIm7-9-11-13'},      // IIm7-9-11-13
-        {'id': 2, 'intervals':[0,3,7,10,14,17,20], 'name': 'IIIm7-9-11-13'},     // IIIm7-9-11-13
-        {'id': 3, 'intervals':[0,4,7,11,14,17,21], 'name': 'IVmaj7-9-11-13'},    // IVmaj7-9-11-13
-        {'id': 4, 'intervals':[0,4,7,10,14,17,20], 'name': 'V7-9-11-13'},        // V7-9-11-13
-        {'id': 5, 'intervals':[0,3,7,10,14,17,20], 'name': 'VIm7-9-11-13'},      // VIm7-9-11-13
-        {'id': 6, 'intervals':[0,3,6,10,14,17,20], 'name': 'VIIm7b5-9-11-13'},   // VIIm7b5-9-11-13
+        {'id': 0, 'intervals':[0,4,7,11,2,5,9], 'name': 'Imaj7-9-11-13'},     // Imaj7-9-11-13
+        {'id': 1, 'intervals':[0,3,7,10,2,5,10], 'name': 'IIm7-9-11-13'},      // IIm7-9-11-13
+        {'id': 2, 'intervals':[0,3,7,10,1,5,8], 'name': 'IIIm7-9-11-13'},     // IIIm7-9-11-13
+        {'id': 3, 'intervals':[0,4,7,11,2,6,21], 'name': 'IVmaj7-9-11-13'},    // IVmaj7-9-11-13
+        {'id': 4, 'intervals':[0,4,7,10,2,5,20], 'name': 'V7-9-11-13'},        // V7-9-11-13
+        {'id': 5, 'intervals':[0,3,7,10,2,5,20], 'name': 'VIm7-9-11-13'},      // VIm7-9-11-13
+        {'id': 6, 'intervals':[0,3,6,10,1,5,20], 'name': 'VIIm7b5-9-11-13'},   // VIIm7b5-9-11-13
     ];
     //--------------------------------------------------------------------------------------
     $scope.changeChords = function()
