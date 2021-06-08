@@ -7,9 +7,9 @@
       <div class="col-sm-3">
         <h4> Tone: 
           <select 
-            ng-init="selectedEscala = arrayCirculoQuintas[0]; changeEscala();" 
-            ng-model="selectedEscala"
-            ng-change="changeEscala()"
+            ng-init="selectedScale = arrayCirculoQuintas[0]; changeScale();" 
+            ng-model="selectedScale"
+            ng-change="changeScale()"
             ng-options="x.ciph for x in arrayCirculoQuintas | orderBy:'order'">
           </select>
         </h4>
@@ -20,10 +20,10 @@
       <div class="col-sm-3">
         <h4> Chords: 
           <select 
-            ng-init="selectedChords = arrayChords[0]; changeChords();" 
+            ng-init="selectedChords = arrayChords[0];" 
             ng-model="selectedChords"
             ng-change="changeChords()"
-            ng-options="x.name for x in arrayChords | orderBy:'id'">
+            ng-options="x.name for x in arrayChords">
           </select>
         </h4>
       </div>
@@ -36,14 +36,14 @@
           <tbody>
             <tr ng-repeat="n in notes | orderBy:'origin.order'">
               <td>
-                <span>{{n.origin.ciph}}</span>
+                <span>{{n.origin.id}} - {{n.origin.ciph}}</span>
               </td>
               <td>
                 <span class="glyphicon glyphicon-arrow-left"></span>
                 <span class="glyphicon glyphicon-arrow-right"></span>
               </td>
               <td>
-                <span>{{n.neg.ciph}}</span>
+                <span>{{n.neg.id}} - {{n.neg.ciph}}</span>
               </td>
             </tr>
           </tbody>
@@ -62,16 +62,16 @@
         <!-- --------------------------------------------------------------------------- -->
         <table class="table table-bordered">
           <tbody>
-            <tr ng-repeat="n in chords | orderBy:'origin.order'">
+            <tr ng-repeat="n in chords">
               <td>
-                <span>{{n.origin.ciph}}</span>
+                <span>{{n.origin.id}} - {{n.origin.ciph}}</span>
               </td>
               <td>
                 <span class="glyphicon glyphicon-arrow-left"></span>
                 <span class="glyphicon glyphicon-arrow-right"></span>
               </td>
               <td>
-                <span>{{n.neg.ciph}}</span>
+                <span>{{n.neg.id}} - {{n.neg.ciph}}</span>
               </td>
             </tr>
           </tbody>
@@ -83,9 +83,9 @@
     <!-- <div class="form-group">
       <label for="">Scala: </label>
       <select 
-        ng-init="selectedEscala = arrayCirculoQuintas[0]" 
-        ng-model="selectedEscala"
-        ng-change="changeEscala()"
+        ng-init="selectedScale = arrayCirculoQuintas[0]" 
+        ng-model="selectedScale"
+        ng-change="changeScale()"
         ng-options="x.ciph for x in arrayCirculoQuintas | orderBy:'order'">
       </select>
     </div> -->

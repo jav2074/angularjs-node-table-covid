@@ -17,18 +17,25 @@ app.controller('myCtrl2', function($scope)
         {'id': 11,  'order': 5,     'name': 'Fa',       'ciph': 'F'},
     ];
     //--------------------------------------------------------------------------------------
-    $scope.changeEscala = function()
+    $scope.changeScale = function()
     {
         // debugger;
-        var id = $scope.selectedEscala.id;
+        var id = $scope.selectedScale.id;
         rotate(id*30);
 
         $scope.notes = [];
         for (var i=0; i<12; i++)
         {
-            var aux = {'origin': $scope.arrayCirculoQuintas[dec(id,i)], 'neg': $scope.arrayCirculoQuintas[inc(id,i+1)]};
+            var aux = {
+                'origin': $scope.arrayCirculoQuintas[dec(id,i)], 
+                'neg': $scope.arrayCirculoQuintas[inc(id,i+1)]
+            };
             $scope.notes.push(aux);
         };
+
+        console.log("notes");
+        console.log($scope.notes);
+        // $scope.changeChords();
     };
     //--------------------------------------------------------------------------------------
     function inc(value, plus)
@@ -62,20 +69,41 @@ app.controller('myCtrl2', function($scope)
         {'id': 3,   'name': 'con 11°'},
         {'id': 4,   'name': 'con 13°'},
     ];
+    $scope.chordsMayorScale = [
+        [0,4,7,11,14,17,21],
+        [0,4,7,11,14,17,21]
+    ];
     //--------------------------------------------------------------------------------------
     $scope.changeChords = function()
     {
         // debugger;
-        var id = $scope.selectedChords.id;
+        var id_chords = $scope.selectedChords.id;
+        var id_scale = $scope.selectedScale.id;
         $scope.chords = [];
-        for (var i=0; i<7; i++)
+        // for (var i=0; i<7; i++)
         {
-            for (var j=0; j<(3+id); j++)
+            for (var j=0; j<(3+id_chords); j++)
             {
-                var aux = {'origin': $scope.arrayCirculoQuintas[dec(id,i)], 'neg': $scope.arrayCirculoQuintas[inc(id,i+1)]};
+                var id = inc(id_scale,j);
+                var aux = {
+                    'origin': $scope.notes[id].origin, 
+                    'neg': $scope.notes[id].neg
+                };
                 $scope.chords.push(aux);
+                // aux = {
+                //     'origin': $scope.arrayCirculoQuintas[dec(id+4,i)], 
+                //     'neg': $scope.arrayCirculoQuintas[inc(id+4,i+1)]
+                // };
+                // $scope.chords.push(aux);
+                // aux = {
+                //     'origin': $scope.arrayCirculoQuintas[dec(id+7,i)], 
+                //     'neg': $scope.arrayCirculoQuintas[inc(id+7,i+1)]
+                // };
+                // $scope.chords.push(aux);
             };
         };
+        console.log("chords");
+        console.log($scope.chords);
     };
     //--------------------------------------------------------------------------------------
     //======================================================================================
