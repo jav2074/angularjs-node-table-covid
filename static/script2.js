@@ -27,9 +27,10 @@ app.controller('myCtrl2', function($scope)
         $scope.notes = [];
         for (var i=0; i<12; i++)
         {
+            var aux_origin = $scope.arrayCirculoQuintas[dec(id,i)];
             var aux = {
-                'order': dec($scope.arrayCirculoQuintas[dec(id,i)].order, order),
-                'origin': $scope.arrayCirculoQuintas[dec(id,i)], 
+                'order': dec(aux_origin.order, order),
+                'origin': aux_origin, 
                 'neg': $scope.arrayCirculoQuintas[inc(id,i+1)]
             };
             debugger;
