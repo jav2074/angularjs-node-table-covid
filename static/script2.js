@@ -33,7 +33,6 @@ app.controller('myCtrl2', function($scope)
                 'origin': aux_origin, 
                 'neg': $scope.arrayCirculoQuintas[inc(id,i+1)]
             };
-            debugger;
             $scope.notes.push(aux);
         };
     };
@@ -90,7 +89,6 @@ app.controller('myCtrl2', function($scope)
             var auxArr = [];
             for (var j=0; j<(3+id_chords); j++)
             {
-                // debugger;
                 var order = inc(id_scale,$scope.chordsMayorScale[i].intervals[j]);
                 var note = getFilteredByKey($scope.notes, 'origin', 'order', order);
                 var aux = {
