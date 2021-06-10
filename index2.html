@@ -4,23 +4,23 @@
     <h2>Negative Harmony</h2>
     <div class="row">
       <!-- ----------------------------------------------------------------------------- -->
-      <div class="col-sm-3">
-        <h4> Tone: 
+      <div class="col-sm-2">
+        <h4>Mayor Scale: 
           <select 
             ng-init="selectedScale = arrayCirculoQuintas[0]; changeScale();" 
             ng-model="selectedScale"
-            ng-change="changeScale()"
+            ng-change="changeScale(); changeChords();"
             ng-options="x.ciph for x in arrayCirculoQuintas | orderBy:'order'">
           </select>
         </h4>
       </div>
       <!-- ----------------------------------------------------------------------------- -->
-      <div class="col-sm-4"></div>
+      <div class="col-sm-3"></div>
       <!-- ----------------------------------------------------------------------------- -->
-      <div class="col-sm-3">
+      <div class="col-sm-7">
         <h4> Chords: 
           <select 
-            ng-init="selectedChords = arrayChords[0];" 
+            ng-init="selectedChords = arrayChords[0]; changeChords();" 
             ng-model="selectedChords"
             ng-change="changeChords()"
             ng-options="x.name for x in arrayChords">
@@ -30,48 +30,48 @@
       <!-- ----------------------------------------------------------------------------- -->
     </div>
     <div class="row">
-      <div class="col-sm-3">
+      <div class="col-sm-2">
         <!-- --------------------------------------------------------------------------- -->
         <table class="table table-bordered">
           <tbody>
-            <tr ng-repeat="n in notes | orderBy:'origin.order'">
+            <tr ng-repeat="n in notes | orderBy:'order'">
               <td>
-                <span>{{n.origin.id}} - {{n.origin.ciph}}</span>
+                <span>{{n.origin.ciph}}</span>
               </td>
               <td>
                 <span class="glyphicon glyphicon-arrow-left"></span>
                 <span class="glyphicon glyphicon-arrow-right"></span>
               </td>
               <td>
-                <span>{{n.neg.id}} - {{n.neg.ciph}}</span>
+                <span>{{n.neg.ciph}}</span>
               </td>
             </tr>
           </tbody>
         </table>
         <!-- --------------------------------------------------------------------------- -->
       </div>
-      <div class="col-sm-4">
-        <div style="position:absolute; top:0px; left:10px; visibility:visible; z-index:1">
+      <div class="col-sm-3">
+        <div style="position:absolute; top:0px; left:0px; visibility:visible; z-index:1">
           <img id="imgCircle" src="assets\img\MUSCIA_-_CirculoQuintas.png">
         </div>
-        <div style="position:absolute; top:0px; left:10px; visibility:visible; z-index:1">
+        <div style="position:absolute; top:0px; left:0px; visibility:visible; z-index:1">
           <img id="imgArrows" src="assets\img\MUSCIA_-_CirculoQuintasArmoniaNegativa.png">
         </div>
       </div>
-      <div class="col-sm-3">
+      <div class="col-sm-7">
         <!-- --------------------------------------------------------------------------- -->
-        <table class="table table-bordered">
+        <table class="table table-bordered chords">
           <tbody>
-            <tr ng-repeat="n in chords">
-              <td>
-                <span>{{n.origin.id}} - {{n.origin.ciph}}</span>
+            <tr ng-repeat="x in chords">
+              <td ng-repeat="n in x" style="max-width: 10px;">
+                <span>{{n.origin.ciph}}</span>
               </td>
-              <td>
+              <td style="max-width: 10px;">
                 <span class="glyphicon glyphicon-arrow-left"></span>
                 <span class="glyphicon glyphicon-arrow-right"></span>
               </td>
-              <td>
-                <span>{{n.neg.id}} - {{n.neg.ciph}}</span>
+              <td ng-repeat="n in x" style="max-width: 10px;">
+                <span>{{n.neg.ciph}}</span>
               </td>
             </tr>
           </tbody>

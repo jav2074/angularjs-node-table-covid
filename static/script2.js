@@ -21,21 +21,20 @@ app.controller('myCtrl2', function($scope)
     {
         // debugger;
         var id = $scope.selectedScale.id;
+        var order = $scope.selectedScale.order;
         rotate(id*30);
 
         $scope.notes = [];
         for (var i=0; i<12; i++)
         {
             var aux = {
+                'order': dec($scope.arrayCirculoQuintas[dec(id,i)].order, order),
                 'origin': $scope.arrayCirculoQuintas[dec(id,i)], 
                 'neg': $scope.arrayCirculoQuintas[inc(id,i+1)]
             };
+            debugger;
             $scope.notes.push(aux);
         };
-
-        console.log("notes");
-        console.log($scope.notes);
-        // $scope.changeChords();
     };
     //--------------------------------------------------------------------------------------
     function inc(value, plus)
@@ -63,54 +62,55 @@ app.controller('myCtrl2', function($scope)
     //--------------------------------------------------------------------------------------
     //--------------------------------------------------------------------------------------
     $scope.arrayChords = [
-        {'id': 0,   'name': 'Triada'},
-        {'id': 1,   'name': 'con 7°'},
-        {'id': 2,   'name': 'con 9°'},
-        {'id': 3,   'name': 'con 11°'},
-        {'id': 4,   'name': 'con 13°'},
+        {'id': 0,   'name': 'Triad'},
+        {'id': 1,   'name': '7th'},
+        {'id': 2,   'name': '9th'},
+        {'id': 3,   'name': '11th'},
+        {'id': 4,   'name': '13th'},
     ];
-    $scope.intervalsMayorScale = [0,2,4,5,7,9,11];
     $scope.chordsMayorScale = [
         {'id': 0, 'intervals':[0,4,7,11,2,5,9], 'name': 'Imaj7-9-11-13'},     // Imaj7-9-11-13
-        {'id': 1, 'intervals':[0,3,7,10,2,5,10], 'name': 'IIm7-9-11-13'},      // IIm7-9-11-13
-        {'id': 2, 'intervals':[0,3,7,10,1,5,8], 'name': 'IIIm7-9-11-13'},     // IIIm7-9-11-13
-        {'id': 3, 'intervals':[0,4,7,11,2,6,21], 'name': 'IVmaj7-9-11-13'},    // IVmaj7-9-11-13
-        {'id': 4, 'intervals':[0,4,7,10,2,5,20], 'name': 'V7-9-11-13'},        // V7-9-11-13
-        {'id': 5, 'intervals':[0,3,7,10,2,5,20], 'name': 'VIm7-9-11-13'},      // VIm7-9-11-13
-        {'id': 6, 'intervals':[0,3,6,10,1,5,20], 'name': 'VIIm7b5-9-11-13'},   // VIIm7b5-9-11-13
+        {'id': 1, 'intervals':[2,5,9,0,4,7,11], 'name': 'IIm7-9-11-13'},      // IIm7-9-11-13
+        {'id': 2, 'intervals':[4,7,11,2,5,9,0], 'name': 'IIIm7-9-11-13'},     // IIIm7-9-11-13
+        {'id': 3, 'intervals':[5,9,0,4,7,11,2], 'name': 'IVmaj7-9-11-13'},    // IVmaj7-9-11-13
+        {'id': 4, 'intervals':[7,11,2,5,9,0,4], 'name': 'V7-9-11-13'},        // V7-9-11-13
+        {'id': 5, 'intervals':[9,0,4,7,11,2,5], 'name': 'VIm7-9-11-13'},      // VIm7-9-11-13
+        {'id': 6, 'intervals':[11,2,5,9,0,4,7], 'name': 'VIIm7b5-9-11-13'},   // VIIm7b5-9-11-13
     ];
     //--------------------------------------------------------------------------------------
     $scope.changeChords = function()
     {
         // debugger;
         var id_chords = $scope.selectedChords.id;
-        var id_scale = $scope.selectedScale.id;
+        var id_scale = $scope.selectedScale.order;
         $scope.chords = [];
-        // for (var i=0; i<7; i++)
+        for (var i=0; i<7; i++)
         {
+            var auxArr = [];
             for (var j=0; j<(3+id_chords); j++)
             {
-                var id = inc(id_scale,j);
+                // debugger;
+                var order = inc(id_scale,$scope.chordsMayorScale[i].intervals[j]);
+                var note = getFilteredByKey($scope.notes, 'origin', 'order', order);
                 var aux = {
-                    'origin': $scope.notes[id].origin, 
-                    'neg': $scope.notes[id].neg
+                    'origin': note[0].origin, 
+                    'neg': note[0].neg,
                 };
-                $scope.chords.push(aux);
-                // aux = {
-                //     'origin': $scope.arrayCirculoQuintas[dec(id+4,i)], 
-                //     'neg': $scope.arrayCirculoQuintas[inc(id+4,i+1)]
-                // };
-                // $scope.chords.push(aux);
-                // aux = {
-                //     'origin': $scope.arrayCirculoQuintas[dec(id+7,i)], 
-                //     'neg': $scope.arrayCirculoQuintas[inc(id+7,i+1)]
-                // };
-                // $scope.chords.push(aux);
+                auxArr.push(aux);
             };
+            $scope.chords.push(auxArr);
         };
-        console.log("chords");
-        console.log($scope.chords);
     };
+    //---------------------------------------------------------------------------
+	function getFilteredByKey(array, key, key1, value)
+	{
+        // debugger;
+		return array.filter(function(e) {
+			// return ( e[key].indexOf(value) !== -1 );
+            // return ( e[key].includes(value) );
+            return ( e[key][key1] == value );
+		});
+	};
     //--------------------------------------------------------------------------------------
     //======================================================================================
     //======================================================================================

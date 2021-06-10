@@ -335,6 +335,8 @@ app.controller('myCtrl1', function($scope, $http)
     "6/4/21": 7668,
     "6/5/21": 7722,
     "6/6/21": 7776,
+    "6/7/21": 7785,
+    "6/8/21": 7794,
     };
     var dataJson = [];
     var vaccineJson = [];
