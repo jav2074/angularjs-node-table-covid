@@ -535,6 +535,8 @@ app.controller('myCtrl1', function($scope, $http)
         weekday[6] = "Sa";  // "Saturday";
         var n = weekday[dateKey.getDay()];
 
+        if(array.recovered[key] == 0) array.recovered[key] = array.recovered[ytd_key];
+
         var infected = Math.abs(array.cases[key] - array.deaths[key] - array.recovered[key]);
         var daily_cases = Math.abs(array.cases[key] - array.cases[ytd_key]);
         var daily_deaths = Math.abs(array.deaths[key] - array.deaths[ytd_key]);
