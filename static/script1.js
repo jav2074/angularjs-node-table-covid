@@ -489,9 +489,15 @@ app.controller('myCtrl1', function($scope, $http)
         var argentina = response.data;
 
         // debugger;
-        var to_day = format(new Date(argentina.updated - (1000 * 60 * 60 * 24)), 'M/d/yy');
+        var to_day = format(new Date(argentina.updated - (1000 * 60 * 60 * 24)), 'dd/MM/yyyy');
 
-        var data_to_day = {date:to_day, cases:argentina.cases, deaths:argentina.deaths, recovered:argentina.recovered, critical:argentina.critical }
+        // active = cases - recovered - deaths   // active = critical + no_critical
+        var data_to_day = { date:       to_day, 
+                            cases:      argentina.cases, 
+                            recovered:  argentina.recovered, 
+                            deaths:     argentina.deaths,  
+                            active:     argentina.active, 
+                            critical:   argentina.critical };
 
         // Obtener el arreglo de localStorage
         var strArrCritical = localStorage.getItem('arrCritical');
