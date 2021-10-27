@@ -489,10 +489,11 @@ app.controller('myCtrl1', function($scope, $http)
         var argentina = response.data;
 
         // debugger;
-        var to_day = format(new Date(argentina.updated - (1000 * 60 * 60 * 24)), 'dd/MM/yyyy');
+        var to_day = format(new Date(argentina.updated - (1000 * 60 * 60 * 24)), 'M/d/yy');
+        var to_day_data = format(new Date(argentina.updated - (1000 * 60 * 60 * 24)), 'dd/MM/yyyy');
 
         // active = cases - recovered - deaths   // active = critical + no_critical
-        var data_to_day = { date:       to_day, 
+        var data_to_day = { date:       to_day_data, 
                             cases:      argentina.cases, 
                             recovered:  argentina.recovered, 
                             deaths:     argentina.deaths,  
@@ -509,7 +510,7 @@ app.controller('myCtrl1', function($scope, $http)
         // Se parsea para poder ser usado en js con JSON.parse :)
         arrCritical = JSON.parse(strArrCritical);
         arrDataToDay = JSON.parse(strArrDataToDay);
-        if (strArrDataToDay.indexOf(to_day) < 0)   // existe?
+        if (strArrDataToDay.indexOf(to_day_data) < 0)   // existe?
         {
             arrDataToDay.push(data_to_day);
             // Se guarda en localStorage despues de JSON stringificarlo 
