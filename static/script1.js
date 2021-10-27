@@ -481,6 +481,7 @@ app.controller('myCtrl1', function($scope, $http)
     var dataJson = [];
     var vaccineJson = [];
     var arrCritical = '{}';
+    var arrDataToDay = [];
 
     $http.get("https://corona.lmao.ninja/v2/countries/Argentina")
     .then(function(response)
@@ -490,13 +491,24 @@ app.controller('myCtrl1', function($scope, $http)
         // debugger;
         var to_day = format(new Date(argentina.updated - (1000 * 60 * 60 * 24)), 'M/d/yy');
 
+        var data_to_day = {date:to_day, cases:argentina.cases, deaths:argentina.deaths, recovered:argentina.recovered, critical:argentina.critical }
+
         // Obtener el arreglo de localStorage
         var strArrCritical = localStorage.getItem('arrCritical');
+        var strArrDataToDay = localStorage.getItem('arrDataToDay');
 
         if (strArrCritical == null ) strArrCritical = '{}';
+        if (strArrDataToDay == null ) strArrDataToDay = '[]';
 
         // Se parsea para poder ser usado en js con JSON.parse :)
         arrCritical = JSON.parse(strArrCritical);
+        arrDataToDay = JSON.parse(strArrDataToDay);
+        if (strArrDataToDay.indexOf(to_day) < 0)   // existe?
+        {
+            arrDataToDay.push(data_to_day);
+            // Se guarda en localStorage despues de JSON stringificarlo 
+            localStorage.setItem('arrDataToDay', JSON.stringify(arrDataToDay));
+        }
 
         if (strArrCritical.indexOf(to_day) < 0)   // existe?
         {
@@ -568,7 +580,6 @@ app.controller('myCtrl1', function($scope, $http)
     var ytd_key;
     var acumObj = [];
     acumObj["avg_cases"] = [];
-    acumObj["avg_infected"] = [];
     acumObj["avg_deaths"] = [];
     acumObj["avg_recovered"] = [];
     acumObj["avg_infected"] = [];
@@ -593,7 +604,7 @@ app.controller('myCtrl1', function($scope, $http)
         weekday[6] = "Sa";  // "Saturday";
         var n = weekday[dateKey.getDay()];
 
-        if(array.recovered[key] == 0) array.recovered[key] = array.recovered[ytd_key];
+        if(array.recovered[key] == 0) array.recovered[key] = array.cases[key] - array.deaths[key];
 
         var infected = Math.abs(array.cases[key] - array.deaths[key] - array.recovered[key]);
         var daily_cases = Math.abs(array.cases[key] - array.cases[ytd_key]);
